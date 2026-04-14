@@ -14,9 +14,12 @@ app.use('/api/tasks', taskRoutes); // ← line 15, this needs taskRoutes to not 
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
-    // Render injects its own PORT — never hardcode 5000 in production
+    console.log('MongoDB connected ✅');
     app.listen(process.env.PORT || 5000, () => {
       console.log(`Server running on port ${process.env.PORT || 5000}`);
     });
   })
-  .catch((err) => console.error('MongoDB connection error:', err));
+  .catch((err) => {
+    console.error('MongoDB connection error:', err.message); // ← logs exact reason
+    process.exit(1);
+  });
