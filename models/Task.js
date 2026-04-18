@@ -3,13 +3,18 @@ const mongoose = require('mongoose');
 const taskSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: true,    // validation: this field must exist
-    trim: true,        // removes leading/trailing spaces
+    required: true,
+    trim: true,
   },
   completed: {
     type: Boolean,
-    default: false,    // new tasks start as incomplete
+    default: false,
+  },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
   }
-}, { timestamps: true }); // auto-adds createdAt and updatedAt fields
+}, { timestamps: true });
 
 module.exports = mongoose.model('Task', taskSchema);

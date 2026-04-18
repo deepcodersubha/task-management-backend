@@ -3,14 +3,16 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 
-const taskRoutes = require('./routes/tasks'); // ← must match exact filename
+const taskRoutes = require('./routes/tasks');
+const authRoutes = require('./routes/auth');   // ← add this
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/tasks', taskRoutes); // ← line 15, this needs taskRoutes to not be undefined
+app.use('/api/auth', authRoutes);    // ← add this
+app.use('/api/tasks', taskRoutes);
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
@@ -20,6 +22,6 @@ mongoose.connect(process.env.MONGO_URI)
     });
   })
   .catch((err) => {
-    console.error('MongoDB connection error:', err.message); // ← logs exact reason
+    console.error('MongoDB connection error:', err.message);
     process.exit(1);
   });
